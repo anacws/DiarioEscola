@@ -1,0 +1,67 @@
+/*1) Escreva comandos SQL para inserir os dados abaixo conforme o diagrama
+apresentado
+
+Comandos para criação das tabelas:*/
+
+        
+CREATE TABLE Aluno
+(
+  Id NUMBER PRIMARY KEY,
+  Nome VARCHAR2(50)   
+);
+
+CREATE TABLE Parentesco
+(
+  ParentescoId NUMBER PRIMARY KEY,
+  IdAluno NUMBER,
+  IdResponsavel NUMBER,
+  Parentesco VARCHAR2(10)
+);
+
+CREATE TABLE Responsavel
+(
+  Id NUMBER PRIMARY KEY,
+  Nome VARCHAR2(50)
+);
+
+ALTER TABLE Parentesco
+  ADD CONSTRAINT FK_Aluno_TO_Parentesco
+    FOREIGN KEY (IdAluno)
+    REFERENCES Aluno (Id);
+
+ALTER TABLE Parentesco
+  ADD CONSTRAINT FK_Responsavel_TO_Parentesco
+    FOREIGN KEY (IdResponsavel)
+    REFERENCES Responsavel (Id);
+
+/*Comandos para inserção de dados:*/
+        
+INSERT INTO Aluno VALUES (1,'Lucas');
+
+INSERT INTO Responsavel VALUES (1,'Pablo');
+INSERT INTO Responsavel VALUES (2,'Brenda');
+
+/*a) Pablo é Pai de Lucas:*/
+INSERT INTO Parentesco VALUES (1,1,1,'Pai');
+
+/*b) Brenda é Mãe de Lucas:*/
+INSERT INTO Parentesco VALUES (2,1,2,'Mãe');
+
+/*2) Escreva uma consulta SQL para retornar dados únicos conforme tabela abaixo.
+Caso o aluno tenha mais de dois responsáveis, traga apenas os dois primeiros
+responsáveis encontrados na tabela.*/
+
+select aluno.nome as aluno, responsavel.nome as responsavel, parentesco.parentesco from aluno
+inner join parentesco on
+aluno.id = parentesco.idaluno
+inner join responsavel on
+responsavel.id = parentesco.idresponsavel; 
+
+/*Bônus:
+1) Escreva uma consulta SQL para trazer todos os dados. Seja criativo.*/
+select * from aluno,responsavel, parentesco;
+
+
+
+
+
